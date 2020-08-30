@@ -1,7 +1,8 @@
+from django.db import transaction
 from django.shortcuts import render, redirect, HttpResponse
+
 from repository import models
 from ..forms.article import ArticleForm
-from django.db import transaction
 
 # Create your views here.
 

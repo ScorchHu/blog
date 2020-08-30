@@ -1,4 +1,4 @@
-一、瀑布流作业
+一、瀑布流
     - 布局
     - 文档，窗口，滚动
     - 面向对象的封装： this,that
@@ -73,7 +73,7 @@
 
         
         
-工作安排：
+项目安排：
     1. 需求分析
     2. 数据库设计思路
     3. 实现数据库设计（Admin添加数据）
@@ -255,12 +255,12 @@
             
     6. 个人博客 
 
-            个人主页：http://127.0.0.1:8000/wupeiqi.html
-            文章最终：http://127.0.0.1:8000/wupeiqi/5.html 文章详细
+            个人主页：http://127.0.0.1:8000/scorch.html
+            文章最终：http://127.0.0.1:8000/scorch/5.html 文章详细
             个人筛选：
-                      http://127.0.0.1:8000/wupeiqi/tag/2.html
-                      http://127.0.0.1:8000/wupeiqi/category/3.html
-                      http://127.0.0.1:8000/wupeiqi/date/2017-02.html
+                      http://127.0.0.1:8000/scorch/tag/2.html
+                      http://127.0.0.1:8000/scorch/category/3.html
+                      http://127.0.0.1:8000/scorch/date/2017-02.html
             
             注意：个人主题定制
             
