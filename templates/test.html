@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h3>验证码</h3>
+    <form action="/test.html" method="post">
+        <p>
+            <input type="text" placeholder="用户名" name="user">
+        </p>
+
+        <p>
+            <input type="password" placeholder="密码" name="pwd">
+        </p>
+
+        <p>
+            <input type="text" placeholder="验证码" name="code">
+            <img src="/static/cankao/1.jpg" alt="">
+            <img id="check_code_img" src="/yanzheng.html" onclick="changeImg(this)">
+            {# 要想点击图片刷新,在src后面加个问号既可以再请求一遍 #}
+        </p>
+        <input type="submit" value="提交">
+    </form>
+    <script>
+        function changeImg(ths) {
+            ths.src=ths.src+"?";
+        }
+    </script>
+</body>
+</html>

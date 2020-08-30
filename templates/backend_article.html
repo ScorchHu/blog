@@ -1,0 +1,134 @@
+{% extends 'backend_layout.html' %}
+
+{% block title %}
+    文章管理
+{% endblock %}
+{% block css %}
+    <style>
+        .panel .panel-body .icon-search {
+            height: 28px;
+            border-bottom: 1px dashed lightgrey;
+        }
+
+        .panel .panel-body .search-condition {
+            padding: 15px 30px 0 30px;
+        }
+
+        .search-condition .category-condition {
+            margin-bottom: 10px;
+        }
+
+        .panel .panel-body .search-condition a {
+            margin-right: 15px;
+        }
+
+        .search-condition .active_name{
+        background-color: #428bca;
+        color: white;
+        }
+    </style>
+{% endblock %}
+
+{% block contents %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">文章管理</h3>
+        </div>
+        <div class="panel-body">
+            <div class="icon-search">
+                <span class="glyphicon glyphicon-search"></span>
+                <span>搜索条件</span>
+            </div>
+            <div class="search-condition">
+                <div class="category-condition">
+                    {% if kwargs.category_id == 0 %}
+                        <a href="/backend/backend_article-0-{{ kwargs.tags }}.html" class="btn btn-primary">全部</a>
+                    {% else %}
+                        <a href="/backend/backend_article-0-{{ kwargs.tags }}.html" >全部</a>
+                    {% endif %}
+
+                    {% for category in category_list %}
+                        {% if category.nid == kwargs.category_id %}
+                            <a href="/backend/backend_article-{{ category.nid }}-{{ kwargs.tags }}.html" class="btn btn-primary">{{ category.title }}</a>
+                        {% else %}
+                            <a href="/backend/backend_article-{{ category.nid }}-{{ kwargs.tags }}.html">{{ category.title }}</a>
+                        {% endif %}
+
+                    {% endfor %}
+
+                </div>
+                <div class="tag-condition">
+                    {% if kwargs.tags == 0 %}
+                        <a href="/backend/backend_article-{{ kwargs.category_id }}-0.html" class="btn btn-primary">全部</a>
+                    {% else %}
+                        <a href="/backend/backend_article-{{ kwargs.category_id }}-0.html">全部</a>
+                    {% endif %}
+
+                    {% for tag in tag_list %}
+                        {% if tag.nid == kwargs.tags %}
+                            <a href="/backend/backend_article-{{ kwargs.category_id }}-{{ tag.nid }}.html" class="btn btn-primary">{{ tag.title }}</a>
+                        {% else %}
+                            <a href="/backend/backend_article-{{ kwargs.category_id }}-{{ tag.nid }}.html">{{ tag.title }}</a>
+                        {% endif %}
+
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <span class="">搜索文章({{ article_count }})</span>
+                <a href="/backend//backend_article-create.html" class="right btn btn-primary" style="margin-top: -8px;color: whitesmoke">新建文章+</a>
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div class=icon-article>
+
+            </div>
+            <div class="search-article">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>文章标题</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for article in article_list %}
+                        <tr nid="{{ article.nid }}">
+                            <td><a href="/{{ blog.site }}/{{ article.nid }}.html">{{ article.title }}</a></td>
+                            <td>
+                                <a class="btn btn-danger btn-xs" onclick="articleDel(this)" style="color: white">删除</a>
+                                <span>|</span>
+                                <a class="btn btn-primary btn-xs" href="/backend/backend_article-edit-{{ article.nid }}.html">编辑</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+
+
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        function articleDel(ths) {
+            var article_nid=$(ths).parent().parent().attr('nid');
+            $.ajax({
+                url:'/backend/backend_article-del.html',
+                type:'GET',
+                data:{article_nid:article_nid},
+                success:function (arg) {
+                     //window.location.reload();       //页面刷新方式
+                    $(ths).parent().parent().remove()  //页面不刷新,去掉标签
+                }
+            })
+        }
+    </script>
+{% endblock %}

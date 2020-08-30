@@ -1,0 +1,79 @@
+{% extends 'home_head.html' %}
+
+{% block body-content %}
+    <div class="content-list">
+        <h3 class="content-title">{{ article_detail.article__title }}</h3>
+        <div class="content-detail">
+            {{ article_detail.content }}
+        </div>
+
+        <div class="up-down" style="padding:15px 0 10px 10px">
+            <a href="#" class="glyphicon glyphicon-thumbs-up" style="transform: scale(2);margin-right: 10px"></a>
+            <span>({{ article_detail.article__up_count }})</span>
+            <a href="#" class="glyphicon glyphicon-thumbs-down" style="transform: scale(2);margin-left: 20px;margin-right: 10px"></a>
+            <span>({{ article_detail.article__down_count}})</span>
+        </div>
+
+        <div class="content-foot" >
+            <span>{{ article_detail.article__create_time }} </span>
+            <a href="#">{{ blog.site }}</a>
+            <span>阅读({{ article_detail.article__read_count}})</span>
+            <span>评论({{ article_detail.article__comment_count }})</span>
+        </div>
+
+        <div content="comment-list">
+            <h4 style="font-weight: bold">评论列表</h4>
+            {% for comment in comment_list %}
+            <div class="comment-item">
+                <div class="reply-title clearfix">
+                    <div class="user-info">
+                        <span>{{ comment.user.nickname }}</span>
+                        <span>{{ comment.create_time }}</span>
+                    </div>
+                </div>
+                <div class="reply-body">
+                    {% if comment.reply %}
+                    <div class="reply-user">@{{ comment.reply.user.nickname }}</div>
+                    {% endif %}
+                    <div class="content">
+                        {{ comment.content }}
+                    </div>
+                    <div class="reply" >
+                        <a href="#">回复</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="comment-area">
+            <textarea name="" id="content" cols="30" rows="10"></textarea>
+            <div class="reply-btn">
+                <span><span>21</span>/255字</span>
+                <a href="#" class="btn btn-primary">发表回复</a>
+            </div>
+        </div>
+
+
+    </div>
+    <script>
+        $(function () {
+            initKindEditor();
+        });
+
+        var kind=null;
+        function initKindEditor() {
+            kind=KindEditor.create('#content',{
+                width:'100%',    // 文本框宽度(可以百分比或像素)
+                height:'200px',  // 文本框高度(只能像素)
+                minWidth:200,    // 最小宽度（数字）
+                minHeight: 200,   // 最小高度（数字）
+                resizeType:1,
+                uploadJson:'/upload.html'  //图片上传路径
+            })
+        }
+{#        function submit() {#}
+{#            kind.html()   //拿到编辑框的所有内容#}
+{#        }#}
+    </script>
+{% endblock %}

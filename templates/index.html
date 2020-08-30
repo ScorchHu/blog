@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>博客首页</title>
+    <link rel="stylesheet" href="/static/plugins/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/plugins/font-awesome/css/font-awesome.css"/>
+
+    <script type="text/javascript" src="/static/plugins/jquery-3.4.1.js"></script>
+    <script type="text/javascript" src="/static/plugins/bootstrap/js/bootstrap.js"></script>
+    <style>
+
+        .article-list .article-title {
+            color: cornflowerblue;
+            font-size: 20px;
+        }
+
+        .article-item {
+            font-size: 13px;
+            border-bottom: 1px dashed #DDDDDD;
+            margin-bottom: 10px;
+        }
+
+        .article-item .avatar img {
+            width: 70px;
+            height: 70px;
+            padding: 1px;
+
+        }
+
+        .article-item .avatar {
+            border: 1px solid #DDDDDD;
+            margin-right: 5px;
+        }
+
+        .left {
+            float: left;
+        }
+
+        .right {
+            float: right;
+        }
+
+        .article-item .clearfix {
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+
+        .article-foot .ele {
+            margin: 0 10px;
+        }
+    </style>
+
+</head>
+<body>
+{% include 'header.html' %}
+
+<div class="container">
+    <div class="col-md-8">
+        <div class="article-list ">
+            {% for foo in article__list %}
+
+                <div class="article-item ">
+                    <div class="article-title">{{ foo.title }}</div>
+                    <div class="clearfix">
+                        <a class="avatar left" href="#">
+                            <img src="/static/img/touxiang/6.jpg" alt="">
+                        </a>
+                        {{ foo.summary }}
+                    </div>
+                    <div class="article-foot">
+                        <a href="#">
+                            <i class="fa fa-user-o" aria-hidden="true"></i>
+                            <span>{{ foo.blog.user.nickname }}</span>
+                        </a>
+                        <span>发布于 2020-11-11</span>
+                        <a href="#" class="ele">
+                            <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                            <span>{{ foo.comment_count }}</span>
+                        </a>
+                        <a href="#" class="ele">
+                            <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                            <span>{{ foo.up_count }}</span>
+                        </a>
+                    </div>
+                </div>
+
+            {% endfor %}
+
+        </div>
+        <ul class="pagination pagination-sm">
+            {{ page_str|safe }}
+        </ul>
+    </div>
+
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">文章推荐</div>
+            <div class="panel-body">
+                <ul class="list-unstyled">
+                    <li>Lorem ipsum dolor sit amet</li>
+                    <li>Consectetur adipiscing elit</li>
+                    <li>Integer molestie lorem at massa</li>
+                    <li>Facilisis in pretium nisl aliquet</li>
+                    <li>Nulla volutpat aliquam velit</li>
+                    <li>Faucibus porta lacus fringilla vel</li>
+                    <li>Aenean sit amet erat nunc</li>
+                    <li>Eget porttitor lorem</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">评论最多</h3>
+            </div>
+            <div class="panel-body">
+                <ul class="list-unstyled">
+                    <li>Lorem ipsum dolor sit amet</li>
+                    <li>Consectetur adipiscing elit</li>
+                    <li>Integer molestie lorem at massa</li>
+                    <li>Facilisis in pretium nisl aliquet</li>
+                    <li>Nulla volutpat aliquam velit</li>
+                    <li>Faucibus porta lacus fringilla vel</li>
+                    <li>Aenean sit amet erat nunc</li>
+                    <li>Eget porttitor lorem</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

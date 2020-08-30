@@ -1,0 +1,89 @@
+{% extends 'backend_layout.html' %}
+
+{% block title %}
+    报障管理
+{% endblock %}
+{% block css %}
+    <style>
+        .panel .panel-body .icon-search {
+            height: 28px;
+            border-bottom: 1px dashed lightgrey;
+        }
+
+        .panel .panel-body .search-condition {
+            padding: 15px 30px 0 30px;
+        }
+
+        .search-condition .category-condition {
+            margin-bottom: 10px;
+        }
+
+        .panel .panel-body .search-condition a {
+            margin-right: 15px;
+        }
+
+    </style>
+{% endblock %}
+
+{% block contents %}
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <span class=""><a href="#">报障管理</a></span>
+                <span>/ 处理报障列表</span>
+                <a href="/backend/trouble-create.html" class="right btn btn-primary" style="margin-top: -8px;color: whitesmoke">新建报障单+</a>
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div class=icon-article>
+
+            </div>
+            <div class="search-article">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>报障标题</th>
+                        <th>状态</th>
+                        <th>创建时间</th>
+                        <th>提交者</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for row in result %}
+                        <tr>
+                            <td>{{ row.title }}</td>
+{#                            <td>{{ row.status }}</td>#}
+                            <td>{{ row.get_status_display }}</td>
+                            <td>{{ row.ctime }}</td>
+                            <td>{{ row.user.username }}</td>
+                            <td>
+                                <a href="/backend/trouble-rob-{{ row.id }}.html" >
+                                    {% if row.status == 1 %}
+                                        抢单
+                                    {% elif row.status == 2 %}
+                                        处理
+                                    {% else %}
+                                        查看解决方案
+                                    {% endif %}
+                                </a>
+                                <span>|</span>
+                                <a href="#" style="color: red">删除</a>
+                                <span>|</span>
+                                <a href="/backend/trouble-edit-{{ row.id }}.html">编辑</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+
+
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+
+{% endblock %}

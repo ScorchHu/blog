@@ -1,0 +1,20 @@
+
+{% extends 'home_head.html' %}
+
+{% block body-content %}
+    <div class="content-list">
+        {% for item in article_list %}
+            <div class="content-item">
+                <a href="/{{ blog.site }}/{{ item.nid }}.html">{{ item.title }}</a>
+                <div>{{ item.summary }}</div>
+                    <div class="content-foot">
+                        <span>{{ item.create_time }} </span>
+                        <span>阅读({{ item.read_count}})</span>
+                        <span>评论({{ item.comment_count }})</span>
+                        <a href="#">编辑</a>
+                    </div>
+            </div>
+        {% endfor %}
+
+    </div>
+{% endblock %}

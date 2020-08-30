@@ -1,0 +1,40 @@
+1.截取数据库某段时间 create_time:2020-2-19 20:46:05 的一部分
+  如:年-月 使用strftime 数据库自带
+ select nid,COUNT(nid) as num ,
+        strftime("%Y-%m",create_time) as ctime
+ from 表名
+        group by strftime("%Y-%m",create_time)
+
+2.引入富文本编辑器:Kindeditor
+    <textarea name="content" id="content"></textarea>
+    #引入文件:
+    <script src="/static/jquery-1.12.4.js"></script>
+    <script src="/static/plugins/kind-editor/kindeditor-all.js"></script>
+
+    <script>
+        $(function () {
+            initKindEditor();
+        });
+
+        function initKindEditor() {
+            var kind = KindEditor.create('#content', {
+                width: '100%',       // 文本框宽度(可以百分比或像素)
+                height: '300px',     // 文本框高度(只能像素)
+                minWidth: 200,       // 最小宽度（数字）
+                minHeight: 400      // 最小高度（数字）
+            });
+        }
+    </script>
+
+3. <form action="demo_form.html" novalidate>
+    novalidate:当提交表单时浏览器不对表单数据（输入）进行验证
+
+4.label标签:关联其他标签
+
+<input name="sex" id="man" type="radio" value="" />
+<label for="man">男</label>
+for:填写需要关联标签的id
+当点击 "男" 的字,input也可以选中
+
+5.#form里加了initial 显示时如果为空值,不会报错
+   form = TroubleMaker(initial={'title': ' ','detail': obj.detail})

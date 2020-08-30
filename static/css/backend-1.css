@@ -1,0 +1,154 @@
+a {
+    text-decoration: none;
+}
+
+body {
+    margin: 0;
+
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.hide {
+    display: none;
+}
+
+.pg-header {
+    height: 48px;
+    background-color: #2F72AB;
+    min-width: 1100px;
+    line-height: 48px;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.pg-header .logo {
+    color: white;
+    font-size: 26px;
+    width: 200px;
+    background-color: #1c5a9c;
+    text-align: center;
+}
+
+.pg-header .hl-menu .item, .pg-header .hr-menu .item {
+    color: white;
+    padding: 0 10px;
+    height: 48px;
+    display: inline-block;
+}
+
+.pg-header .hl-menu .item:hover, .pg-header .hr-menu .item:hover {
+    background-color: #337ab7;
+}
+
+.pg-header .hl-menu .item-set {
+    display: inline-block;
+    position: relative;
+}
+
+.pg-header .hl-menu .item-set .sets {
+    display: none;
+    position: absolute;
+    width: 150px;
+    border: 1px solid lightgrey;
+    background-color: white;
+    box-shadow: 3px 5px 8px #d3d3d3;
+    z-index: 100;
+}
+
+.pg-header .hl-menu .item-set .sets a {
+    line-height: 30px;
+    display: block;
+}
+
+.pg-header .hl-menu .item-set:hover .sets {
+    display: block;
+}
+
+.pg-header .hr-menu .item .item-num {
+    border-radius: 50px;
+    background-color: #00c700 !important;
+}
+
+.avatar {
+    display: inline-block;
+    position: relative;
+}
+
+.avatar .sets {
+    display: none;
+    position: absolute;
+    width: 150px;
+    border: 1px solid lightgrey;
+    background-color: white;
+    box-shadow: 3px 5px 8px #d3d3d3;
+    right: 0;
+    margin-top: 0;
+    z-index: 100;
+}
+
+.avatar .sets a {
+    line-height: 30px;
+    display: block;
+}
+
+.avatar .item img {
+    margin-top: 4px;
+    border-radius: 50%;
+}
+
+.avatar:hover .sets {
+    display: block;
+}
+
+.pg-body .menus {
+    width: 198px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    top: 50px;
+    border: 1px solid lightgrey;
+
+}
+
+.pg-body .contents {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    left: 205px;
+    bottom: 0;
+
+    overflow: scroll;
+    border: 1px solid lightgrey;
+}
+
+.pg-body .menus .item{
+    padding: 8px;
+    display: block;
+    border-bottom: 1px dashed lightgrey;
+}
+
+.menus .item .item-title:hover {
+    color: #388ad9;
+}
+
+.menus .item .item-content a {
+    display: block;
+    padding: 3px;
+    margin-left: 10px;
+    border-left: 3px solid transparent;
+}
+
+.menus .item .item-content a:hover {
+    border-left: 3px solid blue;
+}
+.search-condition .active_name{
+    background-color: #428bca;
+    color: white;
+}

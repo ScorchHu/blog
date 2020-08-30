@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <script src="/static/js/jquery-3.4.1.js"></script>
+    <link rel="stylesheet" href="/static/plugins/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/plugins/bootstrap/fonts/glyphicons-halflings-regular.svg">
+    <link rel="stylesheet" href="/static/css/backend-1.css">
+    <script src="/static/plugins/Highcharts/code/highcharts.js"></script>
+    {% block css%}{% endblock %}
+
+
+</head>
+<body>
+    <div class="pg-header">
+        <div class="logo left">LOGO</div>
+
+        <div class="hl-menu left">
+            <a href="/" class="item">博客首页</a>
+            <div class="item-set" >
+                <a href="#" class="item">菜单四</a>
+                <div class="sets">
+                    <a href="#">菜单四-1</a>
+                    <a href="#">菜单四-2</a>
+                    <a href="#">菜单四-3</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="hr-menu right">
+
+            <div class="avatar right">
+                <a href="#" class="item">
+                    <img src="/static/imgs/default.png" >
+                </a>
+                <div class="sets">
+                    <a href="/{{ request.session.user_info.blog__site }}.html">个人主页</a>
+                    <a href="/logout.html">注销</a>
+                </div>
+            </div>
+            <a href="#" class="item right">
+                消息
+                <span class="glyphicon glyphicon-envelope"></span>
+                <span class="item-num badge bg-success ">1</span>
+            </a>
+            <a href="#" class="item right">
+                通知
+                <span class="glyphicon glyphicon-bell"></span>
+                <span class="item-num badge bg-success">1</span>
+            </a>
+            <a href="#" class="item right">
+                任务
+                <span class="glyphicon glyphicon-briefcase"></span>
+                <span class="item-num badge bg-success">1</span>
+            </a>
+
+
+        </div>
+    </div>
+
+    <div class="pg-body">
+        <div class="menus">
+            <div class="item">
+                <a class="item-title" href="/backend/backend_article-0-0.html">
+                    <span class="glyphicon glyphicon-cog" style="padding-right: 3px"></span>文章管理
+                </a>
+                <div class="item-content hide">
+                    <a href="/backend/backend_article-0-0.html">文章管理</a>
+                </div>
+            </div>
+            <div class="item">
+                <a class="item-title" href="#">
+                    <span class="glyphicon glyphicon-cog" style="padding-right: 3px"></span>标签管理
+                </a>
+                <div class="item-content hide">
+                     <a href="#">文章管理</a>
+                </div>
+            </div>
+            <div class="item">
+                <a class="item-title" href="#">
+                    <span class="glyphicon glyphicon-cog" style="padding-right: 3px"></span>分类管理
+                </a>
+                <div class="item-content hide">
+                     <a href="#">文章管理</a>
+                </div>
+            </div>
+            <div class="item">
+                <a class="item-title" href="/backend/trouble-list.html">
+                    <span class="glyphicon glyphicon-cog" style="padding-right: 3px"></span>报障管理
+                </a>
+                <div class="item-content hide">
+                    <a href="/backend/trouble-list.html">报障单列表</a>
+                    <a href="/backend/trouble-report.html">报障统计表</a>
+                    <a href="/backend/trouble-kill-list.html">处理报障列表</a>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="contents">
+            {% block contents%}
+                <div style="">
+
+                </div>
+            {% endblock %}
+        </div>
+    </div>
+    <div class="pg-footer"></div>
+
+    {% block js%}
+
+    {% endblock %}
+
+    <script>
+        $('.item-title').mouseover(function () {
+            $(this).next().removeClass('hide');
+        });
+
+        $('.item-content').mouseleave(function () {
+            $(this).addClass('hide');
+        });
+
+    </script>
+</body>
+</html>
