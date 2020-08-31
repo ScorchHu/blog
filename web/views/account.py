@@ -73,39 +73,3 @@ def logout(request):
     return redirect("/")
 
 
-# -------------------验证码测试----------------
-def test(request):
-    if request.method == "GET":
-        return render(request, 'test.html')
-    else:
-        input_coded = request.POST.get('code')
-        check_code1 = request.session['check_code']
-        print(input_coded, check_code1)
-        return HttpResponse('....')
-
-
-def yanzheng(request):
-    # img获取图片的第二种方法
-    # f=open('static/cankao/1.jpg','rb')
-    # data = f.read()
-    # f.close()
-
-    # 调用自动生成验证码文件
-    # #实质:把随机生成的字符串写到一张空白图片上,放在内存再返回给前端
-    f = BytesIO()  # 放在内存中
-    img, code = create_validate_code()
-    request.session['check_code'] = code  # 把验证码放在session,方便后面和输入的作比较
-    img.save(f, 'PNG')  # 生成后放在内存
-
-    return HttpResponse(f.getvalue())  # 获取内存中的f图片
-
-
-def upload(request):
-    print(request.FILES)
-    dic = {
-        'error': 0,
-        'url': '/static/img/6.jpg',
-        'message': '错误了...'
-    }
-
-    return JsonResponse(dic)

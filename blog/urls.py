@@ -1,4 +1,4 @@
-"""day65报障和博客系统 URL Configuration
+"""Blog URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.0/topics/http/urls/
@@ -26,12 +26,7 @@ urlpatterns = [
     re_path('logout.html$', account.logout),
     re_path('register.html$', account.register),
     re_path('check_code.html$', account.check_code),
-    path('upload.html', account.upload),
     re_path(r'(?P<site>\w+)/(?P<condition>((tag)|(category)|(date)))/(?P<index1>\w+-*\w*).html$', home.filter),
     re_path(r'(?P<site>\w+)/(?P<article_id>\w+-*\w*).html$', home.detail),
     re_path(r'(?P<site>\w+).html$', home.home),
-
-    path('test.html', account.test),
-    path('yanzheng.html', account.yanzheng),
-
 ]

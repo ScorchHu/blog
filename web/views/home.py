@@ -30,6 +30,7 @@ def index(request,*args,**kwargs):
                       'page_str':page_str,
                   })
 
+
 def home(request,*args,**kwargs):
     print(args)
     print(kwargs)
@@ -52,6 +53,7 @@ def home(request,*args,**kwargs):
                        'date_list':date_list,
                        'article_list':article_list,
                   })
+
 
 def filter(request,site,condition,index1):
     # tag2=models.Article.objects.filter(tags=).values('title')
@@ -83,6 +85,7 @@ def filter(request,site,condition,index1):
                        'date_list':date_list,
                        'article_list':article_list,
                    })
+
 
 def detail(request,site,article_id):
     blog = models.Blog.objects.filter(site=site).select_related('user').first()

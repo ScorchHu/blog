@@ -10,9 +10,7 @@ class UserInfo(models.Model):
     password = models.CharField(verbose_name='密码', max_length=64)
     nickname = models.CharField(verbose_name='昵称', max_length=32)
     email = models.EmailField(verbose_name='邮箱', unique=True)
-    avatar = models.ImageField(
-        verbose_name='头像',
-        upload_to='./static/img/touxiang')
+    avatar = models.ImageField(verbose_name='头像', upload_to='./static/img/touxiang')
     create_time = models.DateTimeField(verbose_name='创建时间', auto_now_add=True)
     fans = models.ManyToManyField(verbose_name='粉丝们',
                                   to='UserInfo',
@@ -33,10 +31,7 @@ class Blog(models.Model):
     title = models.CharField(verbose_name='个人博客标题', max_length=64)
     site = models.CharField(verbose_name='个人博客前缀', max_length=32, unique=True)
     theme = models.CharField(verbose_name='博客主题', max_length=32)
-    user = models.OneToOneField(
-        to='UserInfo',
-        to_field='nid',
-        on_delete=models.CASCADE)
+    user = models.OneToOneField(to='UserInfo', to_field='nid', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name_plural = '博客信息'
@@ -52,13 +47,15 @@ class UserFans(models.Model):
         to='UserInfo',
         to_field='nid',
         related_name='users',
-        on_delete=models.CASCADE)
+        on_delete=models.CASCADE
+    )
     follower = models.ForeignKey(
         verbose_name='粉丝',
         to='UserInfo',
         to_field='nid',
         related_name='followers',
-        on_delete=models.CASCADE)
+        on_delete=models.CASCADE
+    )
 
     class Meta:
         unique_together = [
