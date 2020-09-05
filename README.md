@@ -1,101 +1,141 @@
-## 开发环境搭建
+# 个人博客系统（personal-blog）
 
-### 创建开发环境的基本步骤
+## 目录
 
-* 拉代码
-```bash
-git pull git@gitlab.gizwits.com:goms/client.git goms_client
-```
-我比较喜欢把目录名字改成 __goms_client__
+- [配置中心](#配置中心)
+- [本地运行](#本地运行)
+  - [系统环境](#系统环境)
+  - [本地安装](#本地安装)
+  - [本地启动](#本地启动)
+  - [单元测试](#单元测试)
+- [Docker部署](#Docker部署)
 
-* 开发机器上安装 Python 3.8 版本（Mac）
-```bash
-brew install python@3.8
-```
 
-* 创建一个项目专用的 Virtual Environment
-```bash
-cd goms_client
+## 本地运行
 
-python3.8 -m venv venv_3_8_client
-```
-__venv_3_8_client__ 这个目录名字的确比较长了，不过当你有多个项目的时候，清楚的判断当前环境避免犯浑很重要。你也可以改名字，不管什么名字，用 __venv__ 开头就好了。
+### 系统环境
 
-* 激活这一虚拟环境
-```bash
-source venv_3_8_client/bin/activate
-```
+* SQLite 或者 MySQL 5.6或以上版本 
+* Python 3.7 以上版本
 
-* 安装软件包
-```bash
-pip install -r requirements/dev.txt
+### Linux环境
+
+* virtualenv安装并创建虚拟环境
+```sh
+$ pip install virtualenv
+$ virtualenv -p /usr/bin/python3.7 .env
 ```
 
-### 准备测试
-
-* 创建一个测试配置文件
-```bash
-touch .env_test
+* blog服务依赖库安装
+```sh
+* 激活虚拟环境
+$ source .env/bin/activate
+* 安装依赖库
+$ pip install -r build/requirements.txt
 ```
 
-* 文件里面放入如下环境变量
-```bash
-export XSY_CLIENT_SECRET=f6e*********************
-export XSY_PASSWORD=gpt************
-export XSY_HOST=https://api.xiaoshouyi.com
-export XSY_REDIRECT_URI=https://cc8b18f2.ngrok.io/authorize/
-export XSY_CLIENT_ID=49dd2****************
-export XSY_USERNAME=gpt@gizwits.com
-export MYSQL_DATABASE_URL=sqlite:///db.sqlite3
+* 设置服务依赖变量
+```sh
+
+$ export DEBUG: True
 ```
 
-* 引入上面的环境变量
-```bash
-source .env_test
+* 配置数据库
+```sh
+修改目录 blog/setting.py 文件的以下内容:
+DATABASES = {
+    
+    'default': {
+
+        'ENGINE': 'django.db.backends.mysql',
+
+        'NAME': 'blog',         #你的数据库名称
+
+        'USER': 'root',         #你的数据库用户名
+
+        'PASSWORD': '123456',   #你的数据库密码
+
+        'HOST': '',             #你的数据库主机，留空默认为localhost
+
+        'PORT': '3306',         #你的数据库端口
+
+    }
+}
 ```
 
-* 执行数据库更新
-```bash
-python manage.py makemigrations
-python manage.py migrate
+* 初始化数据库并导入数据
+```sh
+$ python manage.py makemigrations
+$ python manage.py migrate
+$ python manage.py loaddata build/blog_db.json
 ```
 
-* 执行测试
-```bash
-pytest
+* 创建超级用户
+```sh
+$ python manage.py createsuperuser
 ```
 
-## 部署服务
+### 本地启动
 
-### 环境变量
+* Linux 80端口本地启动服务
 
-| 变量名称           | 类型   | 默认值               | 样例                                | 说明                                                         |
-| ------------------ | ------ | -------------------- | ----------------------------------- | ------------------------------------------------------------ |
-| DEBUG              | bool   | False                | 'True'                              | 是否以 “调试模式” 运行服务，生产环境必须将其设置为 'False'，默认不配置该变量即可。`QA` 环境，可以配置为 'True' |
-| MYSQL_DATABASE_URL | string | sqlite:///db.sqlite3 | mysql://root:root@mysql/goms_client | MySQL 数据库的配置地址。配置该链接方式前，请确保已经创建了 UTF-8 编码的数据库（SQLite 可以忽略）。 |
-| XSY_HOST           | string |                      | https://api.xiaoshouyi.com          | 销售易的访问域名                                             |
-| XSY_CLIENT_ID      | string |                      | 49ddxxxxxxxxxxxxxxxxxxxxxxxx64e3    | client ID                                                    |
-| XSY_CLIENT_SECRET  | string |                      | f6e6xxxxxxxxxxxxxxxxxxxxxxxx8d65    | client secret                                                |
-| XSY_REDIRECT_URI   | string |                      | https://xxx.gizwits.com/authorize/  | 回访地址                                                     |
-| XSY_USERNAME       | string |                      | xxx@gizwits.com                     | 销售易的账号，需要有访问客户和订单以及订单详细的权限         |
-| XSY_PASSWORD       | string |                      | xxx123xxxYpuxxx                     | 格式：密码 + 令牌                                            |
-
-### 部署须知
-
-#### 定时任务
-本服务含有定时任务(crontab)，任务定义在 `Dockerfile` 中：
-```bash
-0 * * * * python /app/manage.py reload_xsy_client >> /data/reload_xsy_client.log
-10 * * * * python /app/manage.py reload_xsy_order >> /data/reload_xsy_order.log
-30 * * * * python /app/manage.py reload_org_device_amount >> /data/reload_org_device_amount.log
+```sh
+$ source .env/bin/activate
+$ python manage.py runserver 0:80
 ```
 
-执行的主要任务有：
-1. 拉取销售易的客户信息（增量）
-2. 拉取销售易的订单列表（增量）
-3. 读取新增的设备新增数量
+* Windows 80端口本地启动服务
 
-需要特别说明第 `3` 个任务：
-该任务的实现，由运维从各个生成环境（美东、欧洲、国内）导出设备下的Mac 列表，并传输到指定目录中。
-Docker 容器通过 volumes 的方式，将该目录下的文件，连接到 /app/global_data 下
-定时任务，会定时读取该目录，导入数据，并删除文件
+```sh
+cd .env/Scripts/ 下输入activate
+python manage.py runserver 0:80
+```
+
+详细接口说明和调试请查看[Editor Swagger](/docs/editor_v1.yaml)或[智能语音应用服务详细设计说明书](/docs/智能语音应用服务详细设计说明书.docx)
+
+## 单元测试
+
+```sh
+$ python manage.py test 
+```
+
+## Docker部署
+
+* 镜像构建
+
+```sh
+# 按照版本替换tag_version
+$ docker build -t instruction-editor:tag_version .
+```
+
+* docker-compose.yaml
+
+```yaml
+version: '3'
+services:
+  Editor:
+    image: instruction-editor:tag_version
+    restart: 'no'
+    ports:
+      - 16801:80
+    environment:
+      - CONSUL_HTTP_ADDR: 127.0.0.1:8500
+      - CONSUL_KV_DOMAIN: InstructionEditor
+    # 如果使用sqlite，需要挂在数据目录
+    volumes:
+      - ./data:/app/data
+```
+
+* 服务启动
+```bash
+$ docker-compose up -d
+```
+
+* 导入配置
+```bash
+# 进入容器
+$ docker-compose exec Editor bash
+# 容器内执行
+$ python manage.py loaddata build/editor/editor_config.json
+$ python manage.py createsuperuser
+```

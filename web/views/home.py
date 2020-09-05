@@ -6,7 +6,6 @@ from django.urls import reverse
 # Create your views here.
 
 def index(request,*args,**kwargs):
-
     if kwargs:
         article_type_id=int(kwargs['article_type_id'])
         base_url= reverse('index',kwargs=kwargs)
