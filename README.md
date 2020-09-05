@@ -149,8 +149,6 @@ cd .env/Scripts/ 下输入activate
 python manage.py runserver 0:80
 ```
 
-详细接口说明和调试请查看[Editor Swagger](/docs/editor_v1.yaml)或[智能语音应用服务详细设计说明书](/docs/智能语音应用服务详细设计说明书.docx)
-
 ## 单元测试
 
 ```sh
