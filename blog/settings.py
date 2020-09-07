@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '@q%txumwbq6w8wv9uv$wi@x(i99i6#va854*d_4(i)vs9cbsoo'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG', True)
+DEBUG = env('DEBUG', False)
 
 ALLOWED_HOSTS = ["*"]
 
@@ -45,7 +45,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -85,9 +85,9 @@ DATABASES = {
 
         'USER': 'root',   #你的数据库用户名
 
-        'PASSWORD': '123456', #你的数据库密码
+        'PASSWORD': 'go4gizwits', #你的数据库密码
 
-        'HOST': '', #你的数据库主机，留空默认为localhost
+        'HOST': '192.168.13.128', #你的数据库主机，留空默认为localhost
 
         'PORT': '3306', #你的数据库端口
 
