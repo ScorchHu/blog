@@ -8,9 +8,12 @@ import json
 # Create your views here.
 def trouble_list(request):
     # 报障单列表
-    current_user_id = request.session['user_info']['nid']
-    result = models.Trouble.objects.filter(user_id=current_user_id).order_by('status').only('title', 'status',
-                                                                                            'processer', 'ctime')
+    try:
+        current_user_id = request.session['user_info']['nid']
+    except:
+        return redirect("/login.html")
+    result = models.Trouble.objects.filter(user_id=current_user_id).\
+        order_by('status').only('title', 'status', 'processer', 'ctime')
     return render(request, 'backend_trouble_list.html', {'result': result})
 
 

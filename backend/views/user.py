@@ -8,18 +8,20 @@ from ..forms.article import ArticleForm
 
 
 def index(request):
-    nickname = request.session['user_info']['nickname']  # 没登录 拿不到session就会报错
-    return render(request, 'backend_index.html', {'nickname': nickname})
+    try:
+        nickname = request.session['user_info']['nickname']  # 没登录 拿不到session就会报错
+        return render(request, 'backend_index.html', {'nickname': nickname})
+    except Exception as e:
+        return redirect("/login.html")
 
 
 def backend_article(request, *args, **kwargs):
-
-    blog_site = request.session['user_info']['blog__site']
-    blog = models.Blog.objects.filter(
-        site=blog_site).select_related('user').first()
-    category_list = models.Category.objects.filter(
-        blog=blog).values(
-        'title', 'nid')
+    try:
+        blog_site = request.session['user_info']['blog__site']
+    except:
+        return redirect("/login.html")
+    blog = models.Blog.objects.filter(site=blog_site).select_related('user').first()
+    category_list = models.Category.objects.filter(blog=blog).values('title', 'nid')
     tag_list = models.Tag.objects.filter(blog=blog).values('title', 'nid')
 
     blog_id = request.session['user_info']['blog__nid']
@@ -46,8 +48,13 @@ def backend_article(request, *args, **kwargs):
 
 def article_create(request):
     if request.method == 'GET':
+        try:
+            blog_id = request.session['user_info']['blog__nid']
+        except:
+            return redirect("/login.html")
         form = ArticleForm(request=request)
         return render(request, 'backend_article_create.html', {'form': form})
+
     elif request.method == 'POST':
         form = ArticleForm(request=request, data=request.POST)
         if form.is_valid():
@@ -59,22 +66,16 @@ def article_create(request):
                 form.cleaned_data['blog_id'] = request.session['user_info']['blog__nid']
                 # print(form.cleaned_data)
                 obj = models.Article.objects.create(**form.cleaned_data)
-                models.ArticleDetail.objects.create(
-                    content=content, article=obj)
+                models.ArticleDetail.objects.create(content=content, article=obj)
                 tag_list = []
                 for tag_id in tags:  # 文章分类是多选
                     tag_id = int(tag_id)
-                    tag_list.append(
-                        models.Article2Tag(
-                            article_id=obj.nid,
-                            tag_id=tag_id))
+                    tag_list.append(models.Article2Tag(article_id=obj.nid, tag_id=tag_id))
                 models.Article2Tag.objects.bulk_create(tag_list)  # 批量插入数据
 
             return redirect('/backend/backend_article-0-0.html')
         else:
-            return render(
-                request, 'backend_article_create.html', {
-                    'form': form})
+            return render(request, 'backend_article_create.html', {'form': form})
     else:
         return redirect('/')
 
@@ -90,12 +91,13 @@ def article_del(request):
 
 
 def article_edit(request, nid):
-    blog_id = request.session['user_info']['blog__nid']
+    try:
+        blog_id = request.session['user_info']['blog__nid']
+    except:
+        return redirect("/login.html")
     if request.method == 'GET':
-        article_obj = models.Article.objects.filter(
-            nid=nid, blog_id=blog_id).first()
-        content_dict = models.ArticleDetail.objects.filter(
-            article=article_obj).values('content').first()
+        article_obj = models.Article.objects.filter(nid=nid, blog_id=blog_id).first()
+        content_dict = models.ArticleDetail.objects.filter(article=article_obj).values('content').first()
         tag_id = article_obj.tags.values_list('nid')
         print(tag_id)
         if tag_id:
@@ -111,9 +113,7 @@ def article_edit(request, nid):
             'tags': tag_id
         }
         form = ArticleForm(request=request, data=condition)
-        return render(
-            request, 'backend_article_edit.html', {
-                'form': form, 'nid': nid})
+        return render(request, 'backend_article_edit.html', {'form': form, 'nid': nid})
 
     elif request.method == 'POST':
         form = ArticleForm(request=request, data=request.POST)

@@ -9,7 +9,7 @@ from django.forms import fields, widgets
 
 from repository import models
 from untils.check_code import create_validate_code
-from ..forms.accountForm import LoginForm
+from ..forms.accountForm import LoginForm, RegisterForm
 # Create your views here.
 
 
@@ -24,7 +24,7 @@ def login(request):
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
-            user_info = models.UserInfo.objects. filter(
+            user_info = models.UserInfo.objects.filter(
                 username=username,
                 password=password). values(
                 'nid',
@@ -64,7 +64,13 @@ def check_code(request):
 
 def register(request):
     # 账号注册
-    return render(request, 'register.html')
+    if request.method == "GET":
+        form = RegisterForm(request=request)
+    else:
+        form = RegisterForm(request=request, data=request.POST)
+        if form.is_valid():
+            return HttpResponse('ok')
+    return render(request, 'register.html', {"form": form})
 
 
 def logout(request):
