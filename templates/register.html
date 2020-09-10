@@ -31,7 +31,13 @@
                     {{ form.username }}
                     <div style="color: red">{{ form.username.errors.0 }}</div>
                 </div>
-
+            </div>
+            <div class="form-group">
+                <label for="nickname" class="col-sm-3 control-label">昵称</label>
+                <div class="col-sm-9">
+                    {{ form.nickname }}
+                    <div style="color: red">{{ form.nickname.errors.0 }}</div>
+                </div>
             </div>
             <div class="form-group">
                 <label for="email" class="col-sm-3 control-label">邮箱</label>
@@ -52,6 +58,13 @@
                 <div class="col-sm-9">
                     {{ form.confirm_password }}
                     <div style="color: red">{{ form.confirm_password.errors.0 }}</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="avatar" class="col-sm-3 control-label">上传头像</label>
+                <div class="col-sm-9">
+                    {{ form.avatar }}
+                    <div style="color: red">{{ form.avatar.errors.0 }}</div>
                 </div>
             </div>
             <div class="form-group">

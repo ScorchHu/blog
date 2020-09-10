@@ -67,8 +67,11 @@ def register(request):
     if request.method == "GET":
         form = RegisterForm(request=request)
     else:
+        print('request.POST', request.POST)
+        print('request.FILES', request.FILES)
         form = RegisterForm(request=request, data=request.POST)
         if form.is_valid():
+            # models.UserInfo.objects.create(**form.cleaned_data)
             return HttpResponse('ok')
     return render(request, 'register.html', {"form": form})
 

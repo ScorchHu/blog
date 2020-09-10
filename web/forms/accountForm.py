@@ -27,25 +27,31 @@ class RegisterForm(BaseForm, forms.Form):
                         'max_length': "用户名长度不能大于32个字符"},
         widget=widgets.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username', 'id': "username"})
     )
+    nickname = fields.CharField(
+        max_length=32,
+        widget=widgets.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nickname', 'id': "nickname"})
+    )
     email = fields.EmailField(
         widget=widgets.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email', 'id': "email"})
     )
     password = fields.RegexField(
         r'^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$\%\^\&\*\(\)])[0-9a-zA-Z!@#$\%\^\&\*\(\)]{8,32}$',
         min_length=8,
-        max_length=32,
+        max_length=64,
         error_messages={'required': '密码不能为空.',
                         'invalid': '密码必须包含数字、字母、特殊字符',
                         'min_length': "密码长度不能小于8个字符",
-                        'max_length': "密码长度不能大于32个字符"},
+                        'max_length': "密码长度不能大于64个字符"},
         widget=widgets.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password', 'id': "password"})
     )
     confirm_password = fields.CharField(
         min_length=8,
-        max_length=32,
+        max_length=64,
         widget=widgets.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password', 'id': "confirm-password"})
     )
-
+    avatar = fields.ImageField(
+        widget=widgets.FileInput(attrs={'id': "avatar"})
+    )
     def clean_confirm_password(self):
         if self.request.POST.get('password') != self.request.POST.get('confirm_password'):
             raise ValidationError(message='两次密码输入不一致', code='invalid')
