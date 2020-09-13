@@ -37,6 +37,9 @@
             border-bottom: 1px dashed #DDDDDD;
             margin-bottom: 10px;
         }
+        .search form{
+            margin: 10px 0;
+        }
     </style>
 </head>
 <body>
@@ -57,7 +60,7 @@
                 <ul class="nav navbar-nav">
                     <li><a href="/">首页</a></li>
                     <li><a href="/{{ request.session.user_info.blog__site }}.html">个人首页</a></li>
-                    <li><a href="/backend/index.html">管理</a></li>
+                    <li><a href="/backend/index">管理</a></li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div>
@@ -74,6 +77,16 @@
                         <li>邮箱:{{ blog.user.email }}</li>
                     </ul>
                 </div>
+            </div>
+            <div class="search">
+                <div class="search-head" style="font-weight: bold">搜索</div>
+                <form action="/{{ blog.site }}.html" method="post">
+                    {% csrf_token %}
+                    <span class="col-lg-10">
+                        <input type="search" class="form-control" name="search" placeholder="请输入搜索内容">
+                    </span>
+                    <button type="submit" class="btn btn-info">搜索</button>
+                </form>
             </div>
 
             <div class="tags">

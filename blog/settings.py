@@ -85,15 +85,26 @@ DATABASES = {
 
         'USER': 'root',   #你的数据库用户名
 
-        'PASSWORD': 'go4gizwits', #你的数据库密码
+        'PASSWORD': '123456', #你的数据库密码
 
-        'HOST': '192.168.13.128', #你的数据库主机，留空默认为localhost
+        'HOST': '', #你的数据库主机，留空默认为localhost
 
         'PORT': '3306', #你的数据库端口
 
     }
 }
 
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "CONNECTION_POOL_KWARGS": {"max_connections": 100},
+            "PASSWORD": "",
+        }
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

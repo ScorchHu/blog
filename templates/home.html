@@ -3,15 +3,15 @@
 
 {% block body-content %}
     <div class="content-list">
-        {% for item in article_list %}
+        {% for article in article_list %}
             <div class="content-item">
-                <a href="/{{ blog.site }}/{{ item.nid }}.html">{{ item.title }}</a>
-                <div>{{ item.summary }}</div>
+                <a href="/{{ blog.site }}/{{ article.nid }}.html">{{ article.title }}</a>
+                <div>{{ article.summary }}</div>
                     <div class="content-foot">
-                        <span>{{ item.create_time }} </span>
-                        <span>阅读({{ item.read_count}})</span>
-                        <span>评论({{ item.comment_count }})</span>
-                        <a href="#">编辑</a>
+                        <span>{{ article.create_time }} </span>
+                        <span>阅读({{ article.read_count}})</span>
+                        <span>评论({{ article.comment_count }})</span>
+                        <a href="/backend/backend_article-edit-{{ article.nid }}.html">编辑</a>
                     </div>
             </div>
         {% endfor %}

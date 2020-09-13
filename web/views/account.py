@@ -1,16 +1,24 @@
 import json
+import hashlib
 from io import BytesIO
 
 from django.shortcuts import render, HttpResponse, redirect
 from django.http import JsonResponse
 from django.urls import reverse
-from django import forms
-from django.forms import fields, widgets
 
 from repository import models
 from untils.check_code import create_validate_code
 from ..forms.accountForm import LoginForm, RegisterForm
 # Create your views here.
+
+
+def get_sign_sha1(res):
+    """
+    使用sha1加密,返回str加密后的字符串
+    """
+    obj = hashlib.sha1()
+    obj.update(bytes(res,encoding='utf-8'))
+    return obj.hexdigest().upper()
 
 
 def login(request):
@@ -23,7 +31,7 @@ def login(request):
         print(request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
+            password = get_sign_sha1(form.cleaned_data.get('password'))
             user_info = models.UserInfo.objects.filter(
                 username=username,
                 password=password). values(
@@ -66,13 +74,24 @@ def register(request):
     # 账号注册
     if request.method == "GET":
         form = RegisterForm(request=request)
-    else:
-        print('request.POST', request.POST)
-        print('request.FILES', request.FILES)
-        form = RegisterForm(request=request, data=request.POST)
+    elif request.method == "POST":
+        form = RegisterForm(request=request, data=request.POST, files=request.FILES)
         if form.is_valid():
-            # models.UserInfo.objects.create(**form.cleaned_data)
-            return HttpResponse('ok')
+            form.cleaned_data.pop("confirm_password")
+            form.cleaned_data['password'] = get_sign_sha1(form.cleaned_data['password'])
+            try:
+                user_obj = models.UserInfo.objects.create(**form.cleaned_data)
+            except:
+                error ={"msg": "用户名或邮箱已被使用"}
+                return render(request, 'register.html', {"form": form, "error": error})
+            blog_data = {
+                'title': form.cleaned_data['username'],
+                'site': form.cleaned_data['username'],
+                'theme': 'warm',
+                'user_id': user_obj.nid
+            }
+            models.Blog.objects.create(**blog_data)
+            return render(request,'register_success.html')
     return render(request, 'register.html', {"form": form})
 
 

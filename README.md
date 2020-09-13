@@ -15,8 +15,9 @@
 
 ### 系统环境
 
-* SQLite 或者 MySQL 5.6或以上版本 
-* Python 3.7 以上版本
+* MySQL 5.6 或以上版本 
+* redis 3.2 或以上版本
+* Python 3.7 或以上版本
 
 ### 本地安装
 
@@ -61,6 +62,18 @@ DATABASES = {
 
         'PORT': '3306',         #你的数据库端口
 
+    }
+}
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",                   #你的数据库IP端口
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "CONNECTION_POOL_KWARGS": {"max_connections": 100}, #数据库最大连接数
+            "PASSWORD": "",                                     #你的数据库密码
+        }
     }
 }
 ```

@@ -72,13 +72,6 @@ def trouble_kill(request):
 
 
 class Troublehandel(Form):
-    # title = fields.CharField(
-    #     max_length=32,
-    #     widget=widgets.TextInput(attrs={'class':'form-control','disabled':'disabled'})
-    # )
-    # detail = fields.CharField(
-    #     widget=widgets.Textarea(attrs={'id': 'detail', 'class': 'form-control','disabled':'disabled'})  # 生成的标签有id属性
-    # )
     solution = fields.CharField(
         widget=widgets.Textarea(attrs={'id': 'solution', 'class': 'kind-content'})  # 生成的标签有id属性
     )

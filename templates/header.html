@@ -33,7 +33,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     {% if request.session.user_info %}
                         <li>
-                            <a href="/backend/index.html">{{ request.session.user_info.nickname }}</a>
+                            <a href="/backend/index/">{{ request.session.user_info.nickname }}</a>
                         </li>
                         {% if request.session.user_info.blog__site%}
                             <li><a style="padding-left: 0;padding-right: 0;">·</a></li>

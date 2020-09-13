@@ -57,51 +57,58 @@
 
 <div class="container">
     <div class="col-md-8">
-        <div class="article-list ">
-            {% for article in article__list %}
+        <div class="content-list">
+            <h3 class="content-title">{{ article_detail.article__title }}</h3>
+            <div class="content-detail">
+                {{ article_detail.content }}
+            </div>
 
-                <div class="article-item ">
-                    <div class="article-title">
-                        <a href="/article/{{ article.nid }}/">
-                            {{ article.title }}
-                        </a>
-                    </div>
-                    <div class="clearfix">
-                        <a class="avatar left" href="#">
-                            <img src="/static/img/touxiang/6.jpg" alt="">
-                        </a>
-                        {{ article.summary }}
-                    </div>
-                    <div class="article-foot">
-                        <a href="#">
-                            <i class="fa fa-user-o" aria-hidden="true"></i>
-                            <span>{{ article.blog.user.nickname }}</span>
-                        </a>
-                        <span>发布于 2020-11-11</span>
-                        <a href="#" class="ele">
-                            <i class="fa fa-commenting-o" aria-hidden="true"></i>
-                            <span>{{ article.comment_count }}</span>
-                        </a>
-                        <a href="#" class="ele">
-                            <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-                            <span>{{ article.up_count }}</span>
-                        </a>
-                    </div>
-                </div>
+            <div class="up-down" style="padding:15px 0 10px 10px">
+                <a href="#" class="glyphicon glyphicon-thumbs-up" style="transform: scale(2);margin-right: 10px"></a>
+                <span>({{ article_detail.article__up_count }})</span>
+                <a href="#" class="glyphicon glyphicon-thumbs-down"
+                   style="transform: scale(2);margin-left: 20px;margin-right: 10px"></a>
+                <span>({{ article_detail.article__down_count }})</span>
+            </div>
 
-            {% endfor %}
+            <div class="content-foot">
+                <span>{{ article_detail.article__create_time }} </span>
+                <a href="#">{{ blog.site }}</a>
+                <span>阅读({{ article_detail.article__read_count }})</span>
+                <span>评论({{ article_detail.article__comment_count }})</span>
+            </div>
 
+            <div content="comment-list">
+                <h4 style="font-weight: bold">评论列表</h4>
+                {% for comment in comment_list %}
+                    <div class="comment-item">
+                        <div class="reply-title clearfix">
+                            <div class="user-info">
+                                <span>{{ comment.user.nickname }}</span>
+                                <span>{{ comment.create_time }}</span>
+                            </div>
+                        </div>
+                        <div class="reply-body">
+                            {% if comment.reply %}
+                                <div class="reply-user">@{{ comment.reply.user.nickname }}</div>
+                            {% endif %}
+                            <div class="content">
+                                {{ comment.content }}
+                            </div>
+                            <div class="reply">
+                                <a href="#">回复</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
-        <ul class="pagination pagination-sm">
-            {{ page_str|safe }}
-        </ul>
     </div>
-
     <div class="col-md-4">
         <div class="panel panel-default">
             <div class="panel-heading">文章推荐</div>
             <div class="panel-body">
-                <ul class="list-unstyled" >
+                <ul class="list-unstyled">
                     {% for rec in rec_list %}
                         <li style="margin: 3px 0">
                             <a href="/article/{{ rec.nid }}/">{{ rec.title }}</a>
